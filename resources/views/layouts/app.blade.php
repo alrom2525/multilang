@@ -40,14 +40,20 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a href="{{ route(Route::currentRouteName(), 'fr') }}" class="nav-link">FR</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route(Route::currentRouteName(), 'en') }}" class="nav-link">EN</a>
-                            </li>
-
+                            
+                            @foreach (config('app.available_locales') as $locale)
+                                <li class="nav-item">
+                                     
+                                    <a class="nav-link"
+                                    @if (app()->getLocale() == $locale)
+                                          style="text-decoration: underline"
+                                    @endif 
+                                    href="{{ route(Route::currentRouteName(), $locale) }}" >
+                                    {{ strtoupper($locale)}}
+                                    </a>
+                                </li>    
+                            @endforeach
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login', app()->getLocale()) }}">{{ __('common.login') }}</a>
                             </li>
